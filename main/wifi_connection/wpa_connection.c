@@ -14,10 +14,12 @@
 
 #define SSID      "VF-795"
 #define PASS      "5e50a351422c"
+#define TIMEOUT 100000
 
 static EventGroupHandle_t wifi_event_group;
 static const char *TAG = "simple wifi";
 const int WIFI_CONNECTED_BIT = BIT0;
+
 
 
 static esp_err_t event_handler(void *ctx, system_event_t *event)
@@ -61,7 +63,7 @@ int connect(){
   wifi_event_group = xEventGroupCreate();
 
   tcpip_adapter_init();
-  
+
   ESP_ERROR_CHECK(esp_event_loop_init(event_handler, NULL) );
 
   wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
@@ -77,12 +79,13 @@ int connect(){
   ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config) );
   ESP_ERROR_CHECK(esp_wifi_start());
 
+  //waiting for the connection 
   EventBits_t uxBits = xEventGroupWaitBits(
             wifi_event_group,
             WIFI_CONNECTED_BIT,
             pdFALSE,
             pdFALSE,
-            100 );
+            TIMEOUT );
 
   if((uxBits & WIFI_CONNECTED_BIT )== 0){
     ESP_LOGI(TAG, "wifi_init_sta timeout.");

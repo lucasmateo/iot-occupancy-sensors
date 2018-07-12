@@ -13,5 +13,8 @@ void transmission_config(){
 
 
 void send_message(int state){
+  while(!is_connected()){
+    connect();
+  }
   gpio_set_level(BLINK_GPIO, state);
 }
