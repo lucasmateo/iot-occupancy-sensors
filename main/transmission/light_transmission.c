@@ -2,6 +2,7 @@
 #include "driver/gpio.h"
 #include <string.h>
 #include "../wifi_connection/wifi_connection.h"
+#include "../http/request.h"
 
 #define BLINK_GPIO 2
 
@@ -16,5 +17,5 @@ void send_message(int state){
   while(!is_connected()){
     connect();
   }
-  gpio_set_level(BLINK_GPIO, state);
+  get_request();
 }

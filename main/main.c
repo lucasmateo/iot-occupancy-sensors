@@ -12,7 +12,7 @@
 void main_task(void* param){
   while (1) {
     send_message(sensor_mesure());
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
+    vTaskDelay(2000 / portTICK_PERIOD_MS);
 
   }
 }
