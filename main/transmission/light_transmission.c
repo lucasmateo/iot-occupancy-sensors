@@ -9,6 +9,7 @@
 void transmission_config(){
   gpio_pad_select_gpio(BLINK_GPIO);
   gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
+  setup_connection();
   while(connect());
 }
 

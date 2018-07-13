@@ -12,13 +12,14 @@
 #include "lwip/sys.h"
 
 
-#define SSID      "VF-795"
-#define PASS      "5e50a351422c"
-#define TIMEOUT 1000000
+#define SSID      "SAL"
+#define PASS      "3659Lucas"
+#define TIMEOUT 20000 / portTICK_PERIOD_MS
 
 static EventGroupHandle_t wifi_event_group;
 static const char *TAG = "simple wifi";
 const int WIFI_CONNECTED_BIT = BIT0;
+static int loop_initiated = 1;
 
 
 
@@ -33,18 +34,7 @@ static esp_err_t event_handler(void *ctx, system_event_t *event)
                  ip4addr_ntoa(&event->event_info.got_ip.ip_info.ip));
         xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_BIT);
         break;
-    case SYSTEM_EVENT_AP_STACONNECTED:
-        ESP_LOGI(TAG, "station:"MACSTR" join, AID=%d",
-                 MAC2STR(event->event_info.sta_connected.mac),
-                 event->event_info.sta_connected.aid);
-        break;
-    case SYSTEM_EVENT_AP_STADISCONNECTED:
-        ESP_LOGI(TAG, "station:"MACSTR"leave, AID=%d",
-                 MAC2STR(event->event_info.sta_disconnected.mac),
-                 event->event_info.sta_disconnected.aid);
-        break;
     case SYSTEM_EVENT_STA_DISCONNECTED:
-        esp_wifi_connect();
         xEventGroupClearBits(wifi_event_group, WIFI_CONNECTED_BIT);
         break;
     default:
@@ -53,37 +43,33 @@ static esp_err_t event_handler(void *ctx, system_event_t *event)
     return ESP_OK;
 }
 
+void setup_connection(){
+	esp_err_t ret = nvs_flash_init();
+	if (ret == ESP_ERR_NVS_NO_FREE_PAGES) {
+	  ESP_ERROR_CHECK(nvs_flash_erase());
+	  ret = nvs_flash_init();
+	}
+
+	tcpip_adapter_init();
+
+	wifi_event_group = xEventGroupCreate();
+	ESP_ERROR_CHECK(esp_event_loop_init(event_handler, NULL) );
+	wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+	ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+	wifi_config_t wifi_config = {
+	  .sta = {
+		  .ssid = SSID,
+		  .password = PASS
+	  },
+	};
+
+	ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
+	ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config) );
+	ESP_ERROR_CHECK(esp_wifi_start());
+}
+
 int connect(){
-  esp_err_t ret = nvs_flash_init();
-    if (ret == ESP_ERR_NVS_NO_FREE_PAGES) {
-      ESP_ERROR_CHECK(nvs_flash_erase());
-      ret = nvs_flash_init();
-    }
-
-  wifi_event_group = xEventGroupCreate();
-
-  tcpip_adapter_init();
-
-  #ifndef LOOP_INIT
-  #define LOOP_INIT
-
-  ESP_ERROR_CHECK(esp_event_loop_init(event_handler, NULL) );
-
-  #endif
-
-  wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-  ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-  wifi_config_t wifi_config = {
-      .sta = {
-          .ssid = SSID,
-          .password = PASS
-      },
-  };
-
-  ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
-  ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config) );
-  ESP_ERROR_CHECK(esp_wifi_start());
-
+	ESP_ERROR_CHECK(esp_wifi_connect());
   //waiting for the connection
   EventBits_t uxBits = xEventGroupWaitBits(
             wifi_event_group,
@@ -94,7 +80,6 @@ int connect(){
 
   if((uxBits & WIFI_CONNECTED_BIT )== 0){
     ESP_LOGI(TAG, "wifi_init_sta timeout.");
-    vEventGroupDelete(wifi_event_group);
     return 1;
   }
 
@@ -107,6 +92,7 @@ int connect(){
 
 int is_connected(){
   if(wifi_event_group){
+	ESP_LOGI(TAG, "status %d",xEventGroupGetBits(wifi_event_group));
     return xEventGroupGetBits(wifi_event_group);
   }
   return 0;

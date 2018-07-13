@@ -13,3 +13,6 @@ if the function end with TRUE, is_connect should return true
 else the wifi is not connected
 */
 int connect();
+
+
+void setup_connection();
