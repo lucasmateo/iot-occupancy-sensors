@@ -11,15 +11,13 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 
+#include "../config.h"
 
-#define SSID      "SAL"
-#define PASS      "3659Lucas"
-#define TIMEOUT 20000 / portTICK_PERIOD_MS
+#define TIMEOUT MS_TIMEOUT/portTICK_PERIOD_MS
 
 static EventGroupHandle_t wifi_event_group;
 static const char *TAG = "simple wifi";
 const int WIFI_CONNECTED_BIT = BIT0;
-static int loop_initiated = 1;
 
 
 

@@ -5,9 +5,7 @@
 #include "esp_log.h"
 #include "lwip/dns.h"
 
-#define WEB_SERVER "google.com"
-#define WEB_PORT 9000
-#define WEB_URL "www.google.com"
+#include "../config.h"
 
 static const char *TAG = "http request";
 
@@ -27,11 +25,10 @@ int get_request(){
   int s, r;
   char recv_buf[64];
 
-  int err = getaddrinfo(WEB_SERVER, "80", &hints, &res);
+  int err = getaddrinfo(WEB_SERVER, WEB_PORT, &hints, &res);
 
   if(err != 0 || res == NULL) {
       ESP_LOGE(TAG, "DNS lookup failed err=%d res=%p", err, res);
-      vTaskDelay(1000 / portTICK_PERIOD_MS);
       return 1;
   }
 
@@ -81,9 +78,7 @@ int get_request(){
   do {
       bzero(recv_buf, sizeof(recv_buf));
       r = read(s, recv_buf, sizeof(recv_buf)-1);
-      for(int i = 0; i < r; i++) {
-          putchar(recv_buf[i]);
-      }
+      ESP_LOGI("request response", "%s" ,recv_buf);
   } while(r > 0);
 
   ESP_LOGI(TAG, "... done reading from socket. Last read return=%d errno=%d\r\n", r, errno);

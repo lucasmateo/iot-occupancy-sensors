@@ -3,9 +3,7 @@
 #include <driver/adc.h>
 #include "esp_adc_cal.h"
 
-#define THRESHOLD 1000
-#define ON_GPIO 17
-#define READ 0
+#include "../config.h"
 
 static const adc_atten_t atten = ADC_ATTEN_DB_11;
 
