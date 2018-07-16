@@ -16,5 +16,6 @@ void send_message(int state){
   while(!is_connected()){
     connect();
   }
-  get_request();
+
+  post_request(state?"true":"false");
 }

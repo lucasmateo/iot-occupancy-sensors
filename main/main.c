@@ -21,5 +21,5 @@ void app_main(){
   sensor_config();
   transmission_config();
 
-  xTaskCreate(&main_task, "main_task", 10000, NULL, 5, NULL);
+  xTaskCreate(&main_task, "main_task", 20000, NULL, 5, NULL);
 }
