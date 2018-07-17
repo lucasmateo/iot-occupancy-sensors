@@ -3,7 +3,7 @@
 #include <driver/adc.h>
 #include "esp_adc_cal.h"
 
-#include "../config.h"
+#include "config.h"
 
 static const adc_atten_t atten = ADC_ATTEN_DB_11;
 

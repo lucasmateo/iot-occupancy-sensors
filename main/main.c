@@ -1,7 +1,7 @@
 
 
-#include "sensor/sensor.h"
-#include "transmission/transmission.h"
+#include "sensor.h"
+#include "transmission.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"

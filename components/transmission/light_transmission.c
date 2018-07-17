@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include "driver/gpio.h"
 #include <string.h>
-#include "../wifi_connection/wifi_connection.h"
-#include "../http/request.h"
+#include "wifi_connection.h"
+#include "request.h"
 
-#include "../config.h"
+#include "config.h"
 
 
 

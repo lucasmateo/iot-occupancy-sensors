@@ -11,7 +11,7 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 
-#include "../config.h"
+#include "config.h"
 
 #define TIMEOUT MS_TIMEOUT/portTICK_PERIOD_MS
 
