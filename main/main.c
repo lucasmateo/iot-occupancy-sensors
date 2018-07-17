@@ -7,12 +7,14 @@
 #include "freertos/task.h"
 #include "sdkconfig.h"
 
+#include "config.h"
+
 
 
 void main_task(void* param){
   while (1) {
     send_message(sensor_mesure());
-    vTaskDelay(2000 / portTICK_PERIOD_MS);
+    vTaskDelay(MESURE_FREQUENCY / portTICK_PERIOD_MS);
 
   }
 }

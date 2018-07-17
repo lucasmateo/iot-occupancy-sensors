@@ -10,16 +10,6 @@
 
 static const char *TAG = "http request";
 
-
-char *GET_REQUEST = "GET " WEB_URL " HTTP/1.0\r\n"
-    "Host: "WEB_SERVER"\r\n"
-    "User-Agent: esp-idf/1.0 esp32\r\n"
-    "\r\n";
-
-char *POST_REQUEST = "POST " WEB_URL " HTTP/1.0\r\n"
-    "Host: "WEB_SERVER"\r\n"
-    "User-Agent: esp-idf/1.0 esp32\r\n";
-
 #define SEPARATOR "\r\n"
 #define CONTENT_LENGTH "Content-Length: "
 
@@ -86,7 +76,7 @@ int send_request(char* request){
 	  do {
 	      bzero(recv_buf, sizeof(recv_buf));
 	      r = read(s, recv_buf, sizeof(recv_buf)-1);
-	      ESP_LOGI("request response", "%s" ,recv_buf);
+	      printf( "%s" ,recv_buf);
 	  } while(r > 0);
 
 	  ESP_LOGI(TAG, "... done reading from socket. Last read return=%d errno=%d\r\n", r, errno);
@@ -96,13 +86,30 @@ int send_request(char* request){
 }
 
 
-int get_request(){
-	return send_request(GET_REQUEST);
+int get_request(char* path){
+	char str[1024];
+
+	strcpy(str,"GET ");
+	strcat(str,path);
+	strcat(str," HTTP/1.0\r\n"
+	    "Host: "WEB_SERVER"\r\n"
+	    "User-Agent: esp-idf/1.0 esp32\r\n"
+	    "\r\n");
+
+	printf(str);
+
+	return send_request(str);
 }
 
-int post_request(char* content){
-	char* str = (char*)malloc(sizeof(char) * strlen(POST_REQUEST) + 1024);
-	strcpy(str,POST_REQUEST);
+int post_request(char* path,char* content){
+
+	char str[2048];
+	strcpy(str,"POST ");
+	strcat(str,path);
+	strcat(str, " HTTP/1.0\r\n"
+	    "Host: "WEB_SERVER"\r\n"
+	    "User-Agent: esp-idf/1.0 esp32\r\n");
+
 	strcat(str,CONTENT_LENGTH);
 
 
@@ -112,9 +119,8 @@ int post_request(char* content){
 	strcat(str,SEPARATOR);
 	strcat(str,SEPARATOR);
 	strcat(str,content);
-	printf("%s",str);
 
-	int res = send_request(str);
-	free(str);
-	return res;
+	printf(str);
+
+	return send_request(str);
 }
