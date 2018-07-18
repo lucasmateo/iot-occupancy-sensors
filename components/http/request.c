@@ -86,7 +86,7 @@ int send_request(char* request){
 }
 
 
-int get_request(char* path){
+int get_request(const char* path){
 	char str[1024];
 
 	strcpy(str,"GET ");
@@ -101,7 +101,7 @@ int get_request(char* path){
 	return send_request(str);
 }
 
-int post_request(char* path,char* content){
+int post_request(const char* path,const char* content){
 
 	char str[2048];
 	strcpy(str,"POST ");

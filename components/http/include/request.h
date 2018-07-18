@@ -1,5 +1,5 @@
 
 
-int get_request(char* path);
+int get_request(const char* path);
 
-int post_request(char* path, char* content);
+int post_request(const char* path, const char* content);
