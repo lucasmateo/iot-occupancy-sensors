@@ -2,6 +2,7 @@
 
 #include "sensor.h"
 #include "transmission.h"
+#include "sleep.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
@@ -14,7 +15,7 @@
 void main_task(void* param){
   while (1) {
     send_message(sensor_mesure());
-    vTaskDelay(MESURE_FREQUENCY / portTICK_PERIOD_MS);
+    enter_sleep(MESURE_FREQUENCY);
 
   }
 }

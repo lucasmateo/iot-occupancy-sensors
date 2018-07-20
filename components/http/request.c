@@ -7,11 +7,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "config.h"
+#include "http_answer.h"
 
 static const char *TAG = "http request";
 
-#define SEPARATOR "\r\n"
-#define CONTENT_LENGTH "Content-Length: "
 
 int send_request(char* request){
 	const struct addrinfo hints = {
