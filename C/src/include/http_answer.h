@@ -32,16 +32,14 @@ http_answer* init_http_answer();
 void free_http_answer(http_answer* answer);
 
 /*
- * make the given struct empty
- * set the integer success to 0
- */
-http_answer* empty_http_answer(http_answer* answer);
-
-/*
  * parse the given char array into the http answer
  */
-http_answer* parse_http_answer(http_answer* answer, char* to_parse);
+http_answer* parse_http_answer( char* to_parse);
 
+/*
+ * print the answers
+ */
+void print_http_answer(http_answer* ans);
 
 
 #endif /* COMPONENTS_HTTP_INCLUDE_HTTP_ANSWER_H_ */

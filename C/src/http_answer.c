@@ -14,18 +14,8 @@ http_answer* init_http_answer(){
 	return ans;
 }
 
-http_answer* empty_http_answer(http_answer* answer){
-	free(answer->answer);
-
-	answer->answer = (char*)malloc(sizeof(char));
-	*(answer->answer) = '\0';
-	answer->success = 0;
-
-	return answer;
-}
-
-http_answer* parse_http_answer(http_answer* answer, char* to_parse){
-	empty_http_answer(answer);
+http_answer* parse_http_answer(char* to_parse){
+	http_answer* answer = init_http_answer();
 
 	char* find = strstr(to_parse,CONTENT_LENGTH);
 
@@ -44,13 +34,13 @@ http_answer* parse_http_answer(http_answer* answer, char* to_parse){
 	}
 
 	if(i==0){
-		answer->success = 1;
+		answer->success = 0;
 		return answer;
 	}
 	length_arr[i+1] = 0;
 
 	int length = atoi(length_arr);
-
+	free(answer->answer);
 	answer->answer = (char*)malloc(sizeof(char) * length+1);
 
 	find = strstr(to_parse,SEPARATOR SEPARATOR);
@@ -69,4 +59,12 @@ http_answer* parse_http_answer(http_answer* answer, char* to_parse){
 void free_http_answer(http_answer* answer){
 	free(answer->answer);
 	free(answer);
+}
+
+void print_http_answer(http_answer* ans){
+	if(ans->success){
+		printf("%s\n",ans->answer);
+	} else {
+		printf("answer status is not OK\n");
+	}
 }

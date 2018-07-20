@@ -12,7 +12,7 @@
 static const char *TAG = "http request";
 
 
-int send_request(char* request){
+int send_request(char* request, char* response){
 	const struct addrinfo hints = {
 	        .ai_family = AF_INET,
 	        .ai_socktype = SOCK_STREAM,
@@ -26,7 +26,7 @@ int send_request(char* request){
 
 	  if(err != 0 || res == NULL) {
 	      ESP_LOGE(TAG, "DNS lookup failed err=%d res=%p", err, res);
-	      return 1;
+	      return 0;
 	  }
 
 	  /* Code to print the resolved IP.
@@ -39,7 +39,7 @@ int send_request(char* request){
 	  if(s < 0) {
 	      ESP_LOGE(TAG, "... Failed to allocate socket.");
 	      freeaddrinfo(res);
-	      return 1;
+	      return 0;
 	  }
 	  ESP_LOGI(TAG, "... allocated socket");
 
@@ -47,7 +47,7 @@ int send_request(char* request){
 	      ESP_LOGE(TAG, "... socket connect failed errno=%d", errno);
 	      close(s);
 	      freeaddrinfo(res);
-	      return 1;
+	      return 0;
 	  }
 
 	  ESP_LOGI(TAG, "... connected");
@@ -56,7 +56,7 @@ int send_request(char* request){
 	  if (write(s, request, strlen(request)) < 0) {
 	      ESP_LOGE(TAG, "... socket send failed");
 	      close(s);
-	      return 1;
+	      return 0;
 	  }
 	  ESP_LOGI(TAG, "... socket send success");
 
@@ -67,7 +67,7 @@ int send_request(char* request){
 	          sizeof(receiving_timeout)) < 0) {
 	      ESP_LOGE(TAG, "... failed to set socket receiving timeout");
 	      close(s);
-	      return 1;
+	      return 0;
 	  }
 	  ESP_LOGI(TAG, "... set socket receiving timeout success");
 
@@ -75,7 +75,7 @@ int send_request(char* request){
 	  do {
 	      bzero(recv_buf, sizeof(recv_buf));
 	      r = read(s, recv_buf, sizeof(recv_buf)-1);
-	      printf( "%s" ,recv_buf);
+	      strcat( response ,recv_buf);
 	  } while(r > 0);
 
 	  ESP_LOGI(TAG, "... done reading from socket. Last read return=%d errno=%d\r\n", r, errno);
@@ -84,9 +84,20 @@ int send_request(char* request){
 	  return 1;
 }
 
+http_answer* format(int state, char* response){
+	http_answer* ans;
+	if(state){
+		ans = parse_http_answer(response);
+	}else {
+		ans = init_http_answer();
+	}
 
-int get_request(const char* path){
-	char str[1024];
+	return ans;
+}
+
+
+http_answer* get_request(const char* path){
+	char str[512];
 
 	strcpy(str,"GET ");
 	strcat(str,path);
@@ -95,14 +106,15 @@ int get_request(const char* path){
 	    "User-Agent: esp-idf/1.0 esp32\r\n"
 	    "\r\n");
 
-	printf(str);
 
-	return send_request(str);
+	char response[512];
+	response[0] = 0;
+	return format(send_request(str,response),response);
 }
 
-int post_request(const char* path,const char* content){
+http_answer* post_request(const char* path,const char* content){
 
-	char str[2048];
+	char str[512];
 	strcpy(str,"POST ");
 	strcat(str,path);
 	strcat(str, " HTTP/1.0\r\n"
@@ -111,15 +123,17 @@ int post_request(const char* path,const char* content){
 
 	strcat(str,CONTENT_LENGTH);
 
-
-	char contentL[20];
+	char contentL[5];
 
 	strcat(str,itoa(strlen(content), contentL, 10));
 	strcat(str,SEPARATOR);
 	strcat(str,SEPARATOR);
 	strcat(str,content);
 
-	printf(str);
-
-	return send_request(str);
+	char response[512];
+	response[0] = 0;
+	int state= send_request(str,response);
+	return format(state,response);
 }
+
+
