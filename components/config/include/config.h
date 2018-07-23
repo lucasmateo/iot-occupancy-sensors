@@ -2,7 +2,7 @@
 #define SSID      "IBMInternet"	//wifi ssid
 #define PASS      "" //ssid password
 
-#define WEB_SERVER "9.233.64.162" //server of the request
+#define WEB_SERVER "9.233.64.140" //server of the request
 #define WEB_PORT "9000" //port of the server
 
 #define GET_PATH "/" //path for the first GET request
@@ -14,4 +14,4 @@
 #define ON_GPIO 17 //output that will power the sensor
 #define READ 0 //input that will read the sensor output
 
-#define MESURE_FREQUENCY 1000 //delay between each mesure
+#define MESURE_FREQUENCY 5000 //delay between each mesure

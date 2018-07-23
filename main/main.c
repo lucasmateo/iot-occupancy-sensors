@@ -1,4 +1,5 @@
 
+#include "freertos/FreeRTOS.h"
 
 #include "sensor.h"
 #include "transmission.h"
@@ -13,8 +14,11 @@
 
 void main_task(void){
   while (1) {
+	int start = xPortGetFreeHeapSize();
     send_message(sensor_mesure());
+
     enter_sleep(MESURE_FREQUENCY);
+    printf("memory used : %d\n",xPortGetFreeHeapSize() - start );
 
   }
 }

@@ -75,6 +75,7 @@ int send_request(char* request, char* response){
 	  do {
 	      bzero(recv_buf, sizeof(recv_buf));
 	      r = read(s, recv_buf, sizeof(recv_buf)-1);
+	      printf(recv_buf);
 	      strcat( response ,recv_buf);
 	  } while(r > 0);
 
