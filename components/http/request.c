@@ -75,10 +75,10 @@ int send_request(char* request, char* response){
 	  do {
 	      bzero(recv_buf, sizeof(recv_buf));
 	      r = read(s, recv_buf, sizeof(recv_buf)-1);
-	      printf(recv_buf);
 	      strcat( response ,recv_buf);
 	  } while(r > 0);
 
+	  ESP_LOGI(TAG,"%s",response);
 	  ESP_LOGI(TAG, "... done reading from socket. Last read return=%d errno=%d\r\n", r, errno);
 	  close(s);
 
@@ -97,15 +97,16 @@ http_answer* format(int state, char* response){
 }
 
 
-http_answer* get_request(const char* path){
+http_answer* get_request(const char* path,const char* webserver){
 	char str[512];
 
 	strcpy(str,"GET ");
 	strcat(str,path);
-	strcat(str," HTTP/1.0\r\n"
-	    "Host: "WEB_SERVER"\r\n"
-	    "User-Agent: esp-idf/1.0 esp32\r\n"
-	    "\r\n");
+	strcat(str, " HTTP/1.0\r\n"
+		    "Host: ");
+	strcat(str,webserver);
+	strcat(str,"\r\n"
+		"User-Agent: esp-idf/1.0 esp32\r\n\r\n");
 
 
 	char response[512];
@@ -113,13 +114,15 @@ http_answer* get_request(const char* path){
 	return format(send_request(str,response),response);
 }
 
-http_answer* post_request(const char* path,const char* content){
+http_answer* post_request(const char* path,const char* webserver,const char* content){
 
 	char str[512];
 	strcpy(str,"POST ");
 	strcat(str,path);
 	strcat(str, " HTTP/1.0\r\n"
-	    "Host: "WEB_SERVER"\r\n"
+	    "Host: ");
+	strcat(str,webserver);
+	strcat(str,"\r\n"
 	    "User-Agent: esp-idf/1.0 esp32\r\n");
 
 	strcat(str,CONTENT_LENGTH);
@@ -130,8 +133,7 @@ http_answer* post_request(const char* path,const char* content){
 	strcat(str,SEPARATOR);
 	strcat(str,SEPARATOR);
 	strcat(str,content);
-
-	char response[512];
+	char response[1024];
 	response[0] = 0;
 	int state= send_request(str,response);
 	return format(state,response);

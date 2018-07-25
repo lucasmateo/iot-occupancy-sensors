@@ -4,6 +4,9 @@
 #include "sensor.h"
 #include "transmission.h"
 #include "sleep.h"
+#include "storage.h"
+#include "nvs_flash.h"
+#include "esp_log.h"
 
 
 #include "sdkconfig.h"
@@ -14,11 +17,12 @@
 
 void main_task(void){
   while (1) {
+
 	int start = xPortGetFreeHeapSize();
     send_message(sensor_mesure());
 
     enter_sleep(MESURE_FREQUENCY);
-    printf("memory used : %d\n",xPortGetFreeHeapSize() - start );
+    ESP_LOGI("memory","memory used : %d\n",xPortGetFreeHeapSize() - start );
 
   }
 }
@@ -26,6 +30,5 @@ void main_task(void){
 void app_main(){
   sensor_config();
   transmission_config();
-
   main_task();
 }

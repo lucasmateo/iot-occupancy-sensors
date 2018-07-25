@@ -1,3 +1,1 @@
-cd C
-make
-cd ..	
+make -f TestMakefile flash && make monitor

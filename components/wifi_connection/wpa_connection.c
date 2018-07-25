@@ -19,13 +19,13 @@ static EventGroupHandle_t wifi_event_group;
 static const char *TAG = "simple wifi";
 const int WIFI_CONNECTED_BIT = BIT0;
 
+int is_setup = 0;
 
 
 static esp_err_t event_handler(void *ctx, system_event_t *event)
 {
     switch(event->event_id) {
     case SYSTEM_EVENT_STA_START:
-        esp_wifi_connect();
         break;
     case SYSTEM_EVENT_STA_GOT_IP:
         ESP_LOGI(TAG, "got ip:%s",
@@ -42,6 +42,9 @@ static esp_err_t event_handler(void *ctx, system_event_t *event)
 }
 
 void setup_connection(){
+	if(is_setup){
+		return;
+	}
 	esp_err_t ret = nvs_flash_init();
 	if (ret == ESP_ERR_NVS_NO_FREE_PAGES) {
 	  ESP_ERROR_CHECK(nvs_flash_erase());
@@ -60,10 +63,12 @@ void setup_connection(){
 		  .password = PASS
 	  },
 	};
-
 	ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA) );
 	ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config) );
 	ESP_ERROR_CHECK(esp_wifi_start());
+
+	is_setup = 1;
+
 }
 
 int connect(){
@@ -82,8 +87,6 @@ int connect(){
   }
 
   ESP_LOGI(TAG, "wifi_init_sta finished.");
-  ESP_LOGI(TAG, "connect to ap SSID:%s password:%s",
-           SSID, PASS);
 
   return 0;
 }
@@ -94,4 +97,8 @@ int is_connected(){
     return xEventGroupGetBits(wifi_event_group);
   }
   return 0;
+}
+
+void wifi_stop(){
+	esp_wifi_disconnect();
 }

@@ -14,5 +14,12 @@ else the wifi is not connected
 */
 int connect();
 
-
+/*
+ * setup all needed element for connection
+ */
 void setup_connection();
+
+/*
+ * disconnect from the connected wifi
+ */
+void wifi_stop();

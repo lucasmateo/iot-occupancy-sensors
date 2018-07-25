@@ -3,9 +3,9 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := Occupancy_sensor
+PROJECT_NAME := Occupancy_sensor_test
 EXTRA_COMPONENT_DIRS = $(PROJECT_PATH)/C
-COMPONENT_DIRS = $(EXTRA_COMPONENT_DIRS) $(PROJECT_PATH)/components $(IDF_PATH)/components $(PROJECT_PATH)/main
+COMPONENT_DIRS = $(EXTRA_COMPONENT_DIRS) $(PROJECT_PATH)/components $(IDF_PATH)/components $(PROJECT_PATH)/main_test
 include $(IDF_PATH)/make/project.mk
 
 

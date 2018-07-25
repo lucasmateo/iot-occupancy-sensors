@@ -27,7 +27,7 @@ void transmission_config(){
   setup_connection();
   while(connect());
 
-  process_answer(get_request(GET_PATH));
+  process_answer(get_request(GET_PATH,WEB_SERVER));
 
 
 }
@@ -37,7 +37,7 @@ void send_message(int state){
   while(!is_connected()){
     connect();
   }
-  process_answer(post_request(POST_PATH,state?"true":"false"));
+  process_answer(post_request(POST_PATH,WEB_SERVER,state?"true":"false"));
 }
 
 
