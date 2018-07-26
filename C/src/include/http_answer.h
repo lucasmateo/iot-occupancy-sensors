@@ -2,6 +2,7 @@
 #ifndef COMPONENTS_HTTP_INCLUDE_HTTP_ANSWER_H_
 #define COMPONENTS_HTTP_INCLUDE_HTTP_ANSWER_H_
 
+
 #define CONTENT_LENGTH "Content-Length: "
 #define SEPARATOR "\r\n"
 
@@ -40,6 +41,12 @@ http_answer* parse_http_answer( char* to_parse);
  * print the answers
  */
 void print_http_answer(http_answer* ans);
+
+/*
+ * get the id fromthe json body of the answer
+ */
+char* get_id_body(http_answer* ans);
+
 
 
 #endif /* COMPONENTS_HTTP_INCLUDE_HTTP_ANSWER_H_ */

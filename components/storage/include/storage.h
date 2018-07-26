@@ -12,6 +12,7 @@ char* get_id(int* status);
 /*
  * set the id in db
  * if the id was already set overwrite it
+ * return the status 
  */
 int set_id(char* id);
 
@@ -19,4 +20,3 @@ int set_id(char* id);
  * remove all the stored data
  */
 int erase_all();
-

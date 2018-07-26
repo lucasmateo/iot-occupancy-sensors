@@ -14,6 +14,7 @@ int app_main(void)
 	RUN_TEST(storage_writing_test);
 	RUN_TEST(build_GET_test);
 	RUN_TEST(build_POST_test);
+  RUN_TEST(test_http_parse_withid);
 	RUN_TEST(send_GET_request_test);
 	RUN_TEST(send_POST_request_test);
     return UNITY_END();

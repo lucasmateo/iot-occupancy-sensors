@@ -8,6 +8,7 @@
 #include <string.h>
 #include "config.h"
 #include "http_answer.h"
+#include "request_builder.h"
 
 static const char *TAG = "http request";
 
@@ -99,16 +100,7 @@ http_answer* format(int state, char* response){
 
 http_answer* get_request(const char* path,const char* webserver){
 	char str[512];
-
-	strcpy(str,"GET ");
-	strcat(str,path);
-	strcat(str, " HTTP/1.0\r\n"
-		    "Host: ");
-	strcat(str,webserver);
-	strcat(str,"\r\n"
-		"User-Agent: esp-idf/1.0 esp32\r\n\r\n");
-
-
+	build_request(str,"GET",path,webserver,"");
 	char response[512];
 	response[0] = 0;
 	return format(send_request(str,response),response);
@@ -117,26 +109,9 @@ http_answer* get_request(const char* path,const char* webserver){
 http_answer* post_request(const char* path,const char* webserver,const char* content){
 
 	char str[512];
-	strcpy(str,"POST ");
-	strcat(str,path);
-	strcat(str, " HTTP/1.0\r\n"
-	    "Host: ");
-	strcat(str,webserver);
-	strcat(str,"\r\n"
-	    "User-Agent: esp-idf/1.0 esp32\r\n");
-
-	strcat(str,CONTENT_LENGTH);
-
-	char contentL[5];
-
-	strcat(str,itoa(strlen(content), contentL, 10));
-	strcat(str,SEPARATOR);
-	strcat(str,SEPARATOR);
-	strcat(str,content);
+	build_request(str,"POST",path,webserver,content);
 	char response[1024];
 	response[0] = 0;
 	int state= send_request(str,response);
 	return format(state,response);
 }
-
-

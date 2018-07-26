@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
+#include "parser.h"
 
 http_answer* init_http_answer(){
 	http_answer* ans = (http_answer*)malloc(sizeof(http_answer));
@@ -67,4 +67,8 @@ void print_http_answer(http_answer* ans){
 	} else {
 		printf("answer status is not OK\n");
 	}
+}
+
+char* get_id_body(http_answer* ans){
+	return id_json(ans->answer);
 }

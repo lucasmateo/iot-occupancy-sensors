@@ -1,3 +1,4 @@
+#include "esp_log.h"
 
 
 #include <driver/adc.h>
@@ -5,7 +6,7 @@
 
 #include "config.h"
 
-static const adc_atten_t atten = ADC_ATTEN_DB_11;
+static const adc_atten_t atten = 0;
 
 
 void sensor_config(){
@@ -21,9 +22,11 @@ void sensor_config(){
 int sensor_mesure(){
   int val = adc1_get_raw(READ);
 
+    ESP_LOGI("sensor mesure", "raw val : %d",val);
   if(val > THRESHOLD){
     return 1;
   }
+
   return 0;
 
 }

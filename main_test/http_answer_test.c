@@ -48,3 +48,24 @@ void test_http_parse_nocontent(void){
 	TEST_ASSERT_EQUAL(*(ans->answer),0);
 	free_http_answer(ans);
 }
+
+void test_http_parse_withid(void){
+	http_answer* ans;
+
+	char* req = "HTTP/1.1 200 OK \r\n"
+			"Content-Type: application/x-www-form-urlencoded\r\n"
+			"Content-Length: 59\r\n"
+			"Accept-Language: en-us\r\n"
+			"Accept-Encoding: gzip, deflate\r\n"
+			"Connection: Keep-Alive\r\n\r\n"
+			"{\"status\": \"OK\",\"id\": \"qwedfgt\"}";
+
+	ans = parse_http_answer(req);
+	TEST_ASSERT_EQUAL(1,ans->success);
+	char* id = get_id_body(ans);
+
+	TEST_ASSERT_EQUAL_STRING("qwedfgt",id);
+
+	free(id);
+	free_http_answer(ans);
+}

@@ -9,3 +9,4 @@ void build_GET_test();
 void build_POST_test();
 void send_GET_request_test();
 void send_POST_request_test();
+void test_http_parse_withid(void);
