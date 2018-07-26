@@ -2,4 +2,4 @@
 
 http_answer* get_request(const char* path,const char* webserver);
 
-http_answer* post_request(const char* path,const char* webserver, const char* content);
+http_answer* post_request(const char* path,const char* webserver, int state);

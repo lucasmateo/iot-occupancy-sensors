@@ -9,6 +9,8 @@
 #include "config.h"
 #include "http_answer.h"
 #include "request_builder.h"
+#include "parser.h"
+#include "storage.h"
 
 static const char *TAG = "http request";
 
@@ -106,12 +108,17 @@ http_answer* get_request(const char* path,const char* webserver){
 	return format(send_request(str,response),response);
 }
 
-http_answer* post_request(const char* path,const char* webserver,const char* content){
+http_answer* post_request(const char* path,const char* webserver,int state){
 
 	char str[512];
+	int status = 0;
+	char* content = build_sensor_message(get_id(&status),state);
+
 	build_request(str,"POST",path,webserver,content);
 	char response[1024];
 	response[0] = 0;
-	int state= send_request(str,response);
-	return format(state,response);
+	int req_state= send_request(str,response);
+
+	free(content);
+	return format(req_state,response);
 }

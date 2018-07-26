@@ -56,5 +56,5 @@ void send_message(int state){
   while(!is_connected()){
     connect();
   }
-  process_answer(post_request(POST_PATH,WEB_SERVER,state?"true":"false"));
+  process_answer(post_request(POST_PATH,WEB_SERVER,state));
 }

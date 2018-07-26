@@ -70,5 +70,5 @@ void print_http_answer(http_answer* ans){
 }
 
 char* get_id_body(http_answer* ans){
-	return id_json(ans->answer);
+	return parse_id(ans->answer);
 }

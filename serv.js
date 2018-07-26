@@ -28,7 +28,10 @@ server = http.createServer( function(req, res) {
     }
 
 });
-
+/*require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+  console.log('addr: '+add);
+})
+*/
 port = 9000;
 host = '9.233.65.174';
 server.listen(port, host);
