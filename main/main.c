@@ -17,10 +17,8 @@
 
 void main_task(void){
   while (1) {
-
-	int start = xPortGetFreeHeapSize();
+    int start = xPortGetFreeHeapSize();
     send_message(sensor_mesure());
-
     enter_sleep(MESURE_FREQUENCY);
     ESP_LOGI("memory","memory used : %d\n",xPortGetFreeHeapSize() - start );
 
