@@ -105,6 +105,7 @@ http_answer* get_request(const char* path,const char* webserver){
 	build_request(str,"GET",path,webserver,"");
 	char response[512];
 	response[0] = 0;
+	ESP_LOGI("req","%s\n",str);
 	return format(send_request(str,response),response);
 }
 
@@ -117,6 +118,7 @@ http_answer* post_request(const char* path,const char* webserver,int state){
 	build_request(str,"POST",path,webserver,content);
 	char response[1024];
 	response[0] = 0;
+	ESP_LOGI("req","%s\n",str);
 	int req_state= send_request(str,response);
 
 	free(content);
