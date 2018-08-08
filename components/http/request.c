@@ -100,22 +100,38 @@ http_answer* format(int state, char* response){
 }
 
 
-http_answer* get_request(const char* path,const char* webserver){
+http_answer* request_id(const char* webserver){
 	char str[512];
-	build_request(str,"GET",path,webserver,"");
+	build_request(str,"GET",GET_PATH,webserver,"");
 	char response[512];
 	response[0] = 0;
 	ESP_LOGI("req","%s\n",str);
 	return format(send_request(str,response),response);
 }
 
-http_answer* post_request(const char* path,const char* webserver,int state){
+http_answer* send_data(const char* webserver,int state){
 
 	char str[512];
 	int status = 0;
 	char* content = build_sensor_message(get_id(&status),state);
 
-	build_request(str,"POST",path,webserver,content);
+	build_request(str,"POST",POST_PATH,webserver,content);
+	char response[1024];
+	response[0] = 0;
+	ESP_LOGI("req","%s\n",str);
+	int req_state= send_request(str,response);
+
+	free(content);
+	return format(req_state,response);
+}
+
+http_answer* send_data_array(const char* webserver,int* state,int length){
+
+	char str[512];
+	int status = 0;
+	char* content = build_sensor_array_message(get_id(&status),state,length);
+
+	build_request(str,"POST",POST_PATH,webserver,content);
 	char response[1024];
 	response[0] = 0;
 	ESP_LOGI("req","%s\n",str);

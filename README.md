@@ -24,9 +24,17 @@ You can also find some constant that you might wanna change in the ./main/config
 
 The structure is according to the esp-idf structure : <https://esp-idf.readthedocs.io/en/latest/api-guides/build-system.html>
 
-An additional folder is added that contain code that is not specific to the hardware. You can find for 
-exemple http request parsing. In component folder you will find code relative to the wifi connection for instance. 
+An additional folder is added that contain code that is not specific to the hardware. You can find for
+exemple http request parsing. In component folder you will find code relative to the wifi connection for instance.
 
-They were separated to ease the process of testing as both use different framework. The code in the 
+They were separated to ease the process of testing as both use different framework. The code in the
 component can only be tested on the esp 32 chip whereas the code in the C folder can be tested on any
 computer.  
+
+
+### available command
+"sleep_default" reset the sleep time to its default value
+"sleep_3000" set the sleep time to 3000 ms
+"nosleep" the device will only wait without any particular setting during the wait time
+"modemsleep" after the measurment the device will go into modem sleep meaning it will consume less but won't lose the wifi connection
+"deepsleep" after each measurment the device will go into deep sleep. This is similar to a shutdown.

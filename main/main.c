@@ -19,7 +19,7 @@ void main_task(void){
   while (1) {
     int start = xPortGetFreeHeapSize();
     send_message(sensor_mesure());
-    enter_sleep(MESURE_FREQUENCY);
+    enter_sleep();
     ESP_LOGI("memory","memory used : %d\n",xPortGetFreeHeapSize() - start );
 
   }
