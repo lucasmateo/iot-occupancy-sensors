@@ -2,28 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include "sleep_command.h"
-
-struct command{
-  char* command_name;
-  void (*func)();
-};
-
-typedef struct command command;
-
-command* command_list;
-int nb_command = 6;
+#include "hashmap.h"
+#include "message_command.h"
 
 int is_init = 0;
 
-command* init_command(char* name){
-  command* comm = (command*) malloc(sizeof(command));
-
-  comm->command_name = (char*)malloc(sizeof(char) * (strlen(name) + 1));
-  strcpy(comm->command_name,name);
-
-  return comm;
-}
-
+map_t mymap;
 
 void print(){
   printf("test\n");
@@ -31,32 +15,20 @@ void print(){
 
 
 void init(){
-  command_list = (command*)malloc(sizeof(command) * nb_command);
 
-  command* print_command = init_command("print");
-  print_command->func = print;
+  mymap = hashmap_new();
 
-  command* sleep3000_command = init_command("sleep_default");
-  sleep3000_command->func = sleep_time3000ms;
-
-  command* sleepdefault_command = init_command("sleep_3000");
-  sleepdefault_command->func = reset_sleeptime;
-
-  command* nosleep_command = init_command("nosleep");
-  nosleep_command->func = nosleep_switch;
-
-  command* modemsleep_command = init_command("modemsleep");
-  modemsleep_command->func = modemsleep_switch;
-
-  command* deepsleep_command = init_command("deepsleep");
-  deepsleep_command->func = deepsleep_switch;
-
-  command_list[0] = *print_command;
-  command_list[1] = *sleep3000_command;
-  command_list[2] = *sleepdefault_command;
-  command_list[3] = *nosleep_command;
-  command_list[4] = *modemsleep_command;
-  command_list[5] = *deepsleep_command;
+  hashmap_put(mymap,"print",print);
+  hashmap_put(mymap,"sleep_default",reset_sleeptime);
+  hashmap_put(mymap,"sleep_3000",sleep_time3000ms);
+  hashmap_put(mymap,"nosleep",nosleep_switch);
+  hashmap_put(mymap,"modem",modemsleep_switch);
+  hashmap_put(mymap,"deepsleep",deepsleep_switch);
+  hashmap_put(mymap,"switch_send",switch_send);
+  hashmap_put(mymap,"switch_store",switch_store);
+  hashmap_put(mymap,"max_data64",set_maxdata_64);
+  hashmap_put(mymap,"maxdata_128",set_maxdata_128);
+  hashmap_put(mymap,"max_data512",set_maxdata_512);
 
 }
 
@@ -64,12 +36,12 @@ int process_command(char* command){
   if(!is_init){
     init();
   }
-
-  for(int i = 0; i < nb_command ; i++){
-    if(strcmp(command_list[i].command_name,command) == 0){
-      command_list[i].func();
-      return 1;
-    }
+  void (*func)();
+  int error = hashmap_get(mymap,command,(void**)(&func));
+  if(error == MAP_OK){
+    func();
+    return 1;
   }
+
   return 0;
 }

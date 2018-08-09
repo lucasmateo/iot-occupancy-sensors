@@ -7,6 +7,7 @@
 #include "config.h"
 #include "esp_wifi.h"
 #include "sleep.h"
+#include "wifi_connection.h"
 
 
 int mode = NO_SLEEP;
@@ -22,6 +23,9 @@ void enter_sleep(){
 
 	switch (mode) {
 		case MODEM_SLEEP:
+			esp_sleep_enable_timer_wakeup(sleep_time * 1000);
+			modem_sleep();
+			break;
 		case NO_SLEEP:
 			vTaskDelay(sleep_time/portTICK_PERIOD_MS);
 			break;

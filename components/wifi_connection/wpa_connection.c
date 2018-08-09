@@ -102,3 +102,7 @@ int is_connected(){
 void wifi_stop(){
 	esp_wifi_disconnect();
 }
+
+void modem_sleep(){
+
+}

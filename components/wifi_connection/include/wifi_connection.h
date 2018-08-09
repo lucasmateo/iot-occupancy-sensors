@@ -23,3 +23,8 @@ void setup_connection();
  * disconnect from the connected wifi
  */
 void wifi_stop();
+
+/*
+goes into modem sleep mode 
+*/
+void modem_sleep();
