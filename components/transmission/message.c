@@ -53,7 +53,9 @@ void send_readings(int state){
         int length = get_actual_data(&status);
         int data[length];
         status = get_data(data);
-        send_data_array(WEB_SERVER,data,length);
+        ans = send_data_array(WEB_SERVER,data,length);
+        process_answer(ans);
+        free(ans);
       }
       break;
   }

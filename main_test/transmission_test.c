@@ -9,14 +9,11 @@ void config_test(void){
 
   transmission_config();
 
-  TEST_ASSERT_EQUAL(1,is_connected());
-
   int status = 0;
   get_id(&status);
   TEST_ASSERT_EQUAL(STORAGE_OK,status);
 
   erase_all();
-  wifi_stop();
 }
 
 void storing_test(){

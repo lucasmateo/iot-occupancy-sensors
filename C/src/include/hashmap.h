@@ -2,7 +2,7 @@
  * Generic hashmap manipulation functions
  *
  * Originally by Elliot C Back - http://elliottback.com/wp/hashmap-implementation-in-c/
- *
+ *  https://github.com/petewarden/c_hashmap
  * Modified by Pete Warden to fix a serious performance problem, support strings as keys
  * and removed thread synchronization - http://petewarden.typepad.com
  */

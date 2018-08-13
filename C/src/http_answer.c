@@ -14,6 +14,7 @@ http_answer* init_http_answer(){
 	return ans;
 }
 
+
 http_answer* parse_http_answer(char* to_parse){
 	http_answer* answer = init_http_answer();
 
@@ -52,9 +53,6 @@ http_answer* parse_http_answer(char* to_parse){
 
 	return answer;
 }
-
-
-
 
 void free_http_answer(http_answer* answer){
 	free(answer->answer);

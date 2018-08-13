@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+//handle all the parsing operation using JSON format
+
 char* parse_id(char* toParse){
   cJSON *json = cJSON_Parse(toParse);
   char* id_temp = cJSON_GetObjectItemCaseSensitive(json, PARSER_ID)->valuestring;
@@ -56,7 +58,7 @@ char* build_sensor_array_message(const char* id,int* value,int length){
 }
 
 char** get_command_list(char* to_parse,int* len){
-  cJSON *json = cJSON_Parse(to_parse);
+  cJSON *json = cJSON_GetObjectItemCaseSensitive(cJSON_Parse(to_parse),ARRAY_LABEL);
 
   *len = cJSON_GetArraySize(json);
   if(*len == 0){

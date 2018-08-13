@@ -11,6 +11,7 @@
 #include "request_builder.h"
 #include "parser.h"
 #include "storage.h"
+#include "wifi_connection.h"
 
 static const char *TAG = "http request";
 
@@ -101,15 +102,24 @@ http_answer* format(int state, char* response){
 
 
 http_answer* request_id(const char* webserver){
+	while(!is_connected()){
+    wifi_connect();
+  }
+
 	char str[512];
 	build_request(str,"GET",GET_PATH,webserver,"");
 	char response[512];
 	response[0] = 0;
 	ESP_LOGI("req","%s\n",str);
-	return format(send_request(str,response),response);
+	http_answer* ans = format(send_request(str,response),response);
+	wifi_stop();
+	return ans;
 }
 
 http_answer* send_data(const char* webserver,int state){
+	while(!is_connected()){
+    wifi_connect();
+  }
 
 	char str[512];
 	int status = 0;
@@ -122,10 +132,15 @@ http_answer* send_data(const char* webserver,int state){
 	int req_state= send_request(str,response);
 
 	free(content);
+	wifi_stop();
 	return format(req_state,response);
 }
 
 http_answer* send_data_array(const char* webserver,int* state,int length){
+
+	while(!is_connected()){
+    wifi_connect();
+  }
 
 	char str[512];
 	int status = 0;
@@ -138,5 +153,6 @@ http_answer* send_data_array(const char* webserver,int* state,int length){
 	int req_state= send_request(str,response);
 
 	free(content);
+	wifi_stop();
 	return format(req_state,response);
 }

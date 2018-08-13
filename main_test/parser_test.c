@@ -20,7 +20,7 @@ void sensor_msg_test(){
 }
 
 void command_list_test(){
-  char* str = "[\"test\",\"print\"]";
+  char* str = "{\"status\":\"OK\",\"command\":[\"test\",\"print\"]}";
 
   int len = 0;
   char** arr = get_command_list(str,&len);

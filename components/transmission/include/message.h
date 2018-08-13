@@ -12,4 +12,7 @@ send data to the server
 */
 void send_readings(int state);
 
+/*
+change the data sending mode to send or store
+*/
 void switch_mode(int mode);

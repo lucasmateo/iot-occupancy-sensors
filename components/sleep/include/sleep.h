@@ -1,3 +1,5 @@
+
+// different sleep mode 
 #define DEEP_SLEEP 0
 #define MODEM_SLEEP 1
 #define NO_SLEEP 2

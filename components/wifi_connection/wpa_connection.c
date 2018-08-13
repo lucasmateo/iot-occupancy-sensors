@@ -10,6 +10,7 @@
 
 #include "lwip/err.h"
 #include "lwip/sys.h"
+#include "wifi_connection.h"
 
 #include "config.h"
 
@@ -17,9 +18,13 @@
 
 static EventGroupHandle_t wifi_event_group;
 static const char *TAG = "simple wifi";
+
+//determine if the wifi is connected or not 
 const int WIFI_CONNECTED_BIT = BIT0;
 
 int is_setup = 0;
+int event_loopinit = 0;
+int wifi_mode = WIFI_NORMAL;
 
 
 static esp_err_t event_handler(void *ctx, system_event_t *event)
@@ -54,7 +59,10 @@ void setup_connection(){
 	tcpip_adapter_init();
 
 	wifi_event_group = xEventGroupCreate();
-	ESP_ERROR_CHECK(esp_event_loop_init(event_handler, NULL) );
+  if(!event_loopinit){
+	   ESP_ERROR_CHECK(esp_event_loop_init(event_handler, NULL) );
+     event_loopinit = 1;
+  }
 	wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
 	ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 	wifi_config_t wifi_config = {
@@ -71,7 +79,10 @@ void setup_connection(){
 
 }
 
-int connect(){
+int wifi_connect(){
+  if(!is_setup){
+    setup_connection();
+  }
 	ESP_ERROR_CHECK(esp_wifi_connect());
   //waiting for the connection
   EventBits_t uxBits = xEventGroupWaitBits(
@@ -100,9 +111,13 @@ int is_connected(){
 }
 
 void wifi_stop(){
-	esp_wifi_disconnect();
+  if(WIFI_NORMAL){
+  	esp_wifi_stop();
+    is_setup = 0;
+  }
 }
 
 void modem_sleep(){
-
+  wifi_mode = WIFI_ALWAYSUP;
+  esp_wifi_set_ps(WIFI_PS_MAX_MODEM);
 }

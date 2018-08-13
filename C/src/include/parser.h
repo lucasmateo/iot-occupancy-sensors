@@ -1,5 +1,6 @@
 #define PARSER_ID "id"
 #define PARSER_VALUE "val"
+#define ARRAY_LABEL "command"
 
 /*
 parse the string to get the id
@@ -20,4 +21,8 @@ len is an integer where the length of the array will be stored
 */
 char** get_command_list(char* to_parse,int* len);
 
+/*
+return a message build with an array of data
+returned value must be freed 
+*/
 char* build_sensor_array_message(const char* id,int* value,int length);

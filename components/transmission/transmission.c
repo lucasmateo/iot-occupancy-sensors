@@ -11,16 +11,12 @@
 void transmission_config(){
   gpio_pad_select_gpio(BLINK_GPIO);
   gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
-  setup_connection();
-  while(connect());
 
   check_id();
 }
 
 void send_message(int state){
   gpio_set_level(BLINK_GPIO, state);
-  while(!is_connected()){
-    connect();
-  }
+
   send_readings(state);
 }

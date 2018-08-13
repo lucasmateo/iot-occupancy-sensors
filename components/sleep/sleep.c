@@ -25,6 +25,7 @@ void enter_sleep(){
 		case MODEM_SLEEP:
 			esp_sleep_enable_timer_wakeup(sleep_time * 1000);
 			modem_sleep();
+			vTaskDelay(sleep_time/portTICK_PERIOD_MS);
 			break;
 		case NO_SLEEP:
 			vTaskDelay(sleep_time/portTICK_PERIOD_MS);

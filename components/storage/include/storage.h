@@ -1,3 +1,5 @@
+
+// return value available 
 #define STORAGE_NOT_SET 2
 #define STORAGE_OK 1
 #define STORAGE_ERROR 0
@@ -34,6 +36,11 @@ int get_actual_data(int* status);
 
 int set_actual_data(int actual_data);
 
+/*
+increment the actual data value by 1
+same action could be done using get and set
+thus method avoid opening and closing the storage 2 times
+*/
 int incr_actual_data(int *status);
 
 /*
