@@ -2,7 +2,7 @@
 #define STORE 2
 
 /*
-only
+check if id present in storage if it is do nothing else
 get new id from server and write it to the storage so itcan be fetched later
 */
 int check_id();

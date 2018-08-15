@@ -32,6 +32,7 @@ int app_main(void)
   RUN_TEST(storage_full_test);
   RUN_TEST(value_array_test);
   RUN_TEST(storing_test);
+  RUN_TEST(check_id_test);
   erase_all();
   return UNITY_END();
 }

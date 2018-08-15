@@ -12,8 +12,8 @@
 
 #define THRESHOLD 1000 //above this value the reading will be considered as high
 #define ON_GPIO 17 //output that will power the sensor
-#define READ 3 //input that will read the sensor output
+#define READ 4 //input that will read the sensor output
 
-#define MESURE_FREQUENCY 10000 //delay between each mesure
+#define MESURE_FREQUENCY 1000 //delay between each mesure
 
 #define MAX_STORAGE 128

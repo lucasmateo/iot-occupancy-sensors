@@ -4,14 +4,14 @@
 #include "wifi_connection.h"
 #include "request.h"
 #include "storage.h"
-
+#include "nvs_flash.h"
 #include "config.h"
 #include "message.h"
 
 void transmission_config(){
   gpio_pad_select_gpio(BLINK_GPIO);
   gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
-
+  nvs_flash_init();
   check_id();
 }
 

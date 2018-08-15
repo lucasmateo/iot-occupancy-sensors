@@ -6,6 +6,7 @@
 #include "parser.h"
 #include "command.h"
 #include "message.h"
+#include <stdio.h>
 
 int send_mode = SEND;
 
@@ -27,9 +28,9 @@ int check_id(){
 	if(status == STORAGE_OK){
 		return 1;
 	}
+  printf("no id found storage status : %d\n",status);
 
-	http_answer* ans = request_id(WEB_SERVER);
-
+  http_answer* ans = request_id(WEB_SERVER);
 	char* id = get_id_body(ans);
 
 	set_id(id);

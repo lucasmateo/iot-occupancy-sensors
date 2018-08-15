@@ -6,7 +6,7 @@
 
 #include "config.h"
 
-static const adc_atten_t atten = 0;
+static const adc_atten_t atten = 3;
 
 
 void sensor_config(){
@@ -26,7 +26,6 @@ int sensor_mesure(){
   if(val > THRESHOLD){
     return 1;
   }
-
   return 0;
 
 }

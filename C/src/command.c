@@ -4,6 +4,7 @@
 #include "sleep_command.h"
 #include "hashmap.h"
 #include "message_command.h"
+#include "esp_log.h"
 
 int is_init = 0;
 
@@ -45,9 +46,10 @@ int process_command(char* command){
   void (*func)();
   int error = hashmap_get(mymap,command,(void**)(&func));
   if(error == MAP_OK){
+    ESP_LOGI("command","executing command : %s\n",command);
     func();
     return 1;
   }
-
+  ESP_LOGI("command","no command named : %s\n",command);
   return 0;
 }

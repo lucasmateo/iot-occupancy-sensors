@@ -29,4 +29,8 @@ void app_main(){
   sensor_config();
   transmission_config();
   main_task();
+  /*while(1){
+    printf("%d\n",sensor_mesure() );
+    enter_sleep();
+  }*/
 }

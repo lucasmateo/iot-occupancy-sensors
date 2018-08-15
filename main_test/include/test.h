@@ -25,3 +25,4 @@ void storage_data_test();
 void storage_full_test();
 void value_array_test();
 void storing_test();
+void check_id_test();

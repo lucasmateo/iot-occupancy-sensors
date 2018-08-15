@@ -16,6 +16,22 @@ void config_test(void){
   erase_all();
 }
 
+void check_id_test(){
+  erase_all();
+
+  transmission_config();
+
+  int status = 0;
+  status = set_id("test");
+  TEST_ASSERT_EQUAL(STORAGE_OK,status);
+  check_id();
+  char* id = get_id(&status);
+  TEST_ASSERT_EQUAL(STORAGE_OK,status);
+  TEST_ASSERT_EQUAL_STRING("test",id);
+
+  erase_all();
+}
+
 void storing_test(){
   transmission_config();
   erase_all();
