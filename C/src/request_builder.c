@@ -20,7 +20,7 @@ void build_request(char* request,const char* method,const char* path,const char*
 		return;
 	}
 
-	strcat(request,CONTENT_LENGTH);
+	strcat(request,"Content-Length: ");
 
 	char contentL[5];
 

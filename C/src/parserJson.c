@@ -8,8 +8,10 @@
 //handle all the parsing operation using JSON format
 
 char* parse_id(char* toParse){
+
   cJSON *json = cJSON_Parse(toParse);
   char* id_temp = cJSON_GetObjectItemCaseSensitive(json, PARSER_ID)->valuestring;
+
   char* id = (char*)malloc(sizeof(char) * (strlen(id_temp) + 1));
 
   strcpy(id,id_temp);

@@ -3,7 +3,7 @@
 #define COMPONENTS_HTTP_INCLUDE_HTTP_ANSWER_H_
 
 
-#define CONTENT_LENGTH "Content-Length: "
+#define CONTENT_LENGTH "Length: "
 #define SEPARATOR "\r\n"
 
 /*

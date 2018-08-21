@@ -1,4 +1,4 @@
-#define MS_TIMEOUT 10000 //maximum time in ms to connect to the wifi
+#define MS_TIMEOUT 15000 //maximum time in ms to connect to the wifi
 #define SSID      "IBMInternet"	//wifi ssid
 #define PASS      "" //ssid password
 

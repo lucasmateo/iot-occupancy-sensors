@@ -31,8 +31,8 @@ int check_id(){
   printf("no id found storage status : %d\n",status);
 
   http_answer* ans = request_id(WEB_SERVER);
-	char* id = get_id_body(ans);
 
+	char* id = get_id_body(ans);
 	set_id(id);
 	free(id);
 	return 1;
