@@ -21,6 +21,22 @@ You can also change how the data are sent to the server. Instead of sending them
 
 The wifi protocol is wpa. So you can only connect to the ibm guest wifi. the connection to the wifi is required for the tests to pass
 
+#### wpa2
+
+In order to connect to the ibm wifi you will need some certificate.
+to get them go to <https://w3.ibm.com/help/#/article/install_digicert/install_overview>  
+From this link you should
+be able to get two document one named "ca.pem" and another one finishing with ".p12". From the p12 file you need to get
+two files using the openssl tool and the following command :
+
+```bash
+openssl pkcs12 -in filename.p12 -clcerts -nokeys -out filename.crt
+```
+
+```bash
+openssl pkcs12 -nodes -in yourP12File.p12 -nocerts -out privateKey.key
+```
+
 ### Build
 
 to setup your environment follow the instruction in this link :
