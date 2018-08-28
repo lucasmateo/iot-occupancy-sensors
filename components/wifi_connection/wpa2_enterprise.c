@@ -13,8 +13,11 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 #include "wifi_connection.h"
-
 #include "config.h"
+
+#include "wifi_build.h"
+
+#if WIFI_BUILD_TYPE==WPA2_ENTERPRISE_BUILD
 
 #define TIMEOUT MS_TIMEOUT/portTICK_PERIOD_MS
 #define EAP_ID "lucas.matteo@ibm.com"
@@ -147,3 +150,5 @@ void modem_sleep(){
   wifi_mode = WIFI_ALWAYSUP;
   esp_wifi_set_ps(WIFI_PS_MAX_MODEM);
 }
+
+#endif

@@ -1,5 +1,5 @@
 #define MS_TIMEOUT 15000 //maximum time in ms to connect to the wifi
-#define SSID      "IBM"	//wifi ssid
+#define SSID      "IBMInternet"	//wifi ssid
 #define PASS      "" //ssid password
 
 #define WEB_SERVER "IOT-api-occupancy.eu-gb.mybluemix.net" //server of the request

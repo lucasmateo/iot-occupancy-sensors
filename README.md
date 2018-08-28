@@ -61,6 +61,11 @@ some building script are provided :
 
 You can also find some constant that you might wanna change in the ./configuration/include/config.h file
 
+Before launching the device try and make the test.sh script run. It upload a test application to the device
+if all the test are ok, the device is working and you launch the application with the launch.sh script
+
+sometime the wifi connection can timeout and fail one test, try and lauch the tst multiple times. If other test are failing you will have to fix them.
+
 ### Project Structure
 
 The structure is according to the esp-idf structure : <https://esp-idf.readthedocs.io/en/latest/api-guides/build-system.html>
