@@ -37,6 +37,9 @@ openssl pkcs12 -in filename.p12 -clcerts -nokeys -out filename.crt
 openssl pkcs12 -nodes -in yourP12File.p12 -nocerts -out privateKey.key
 ```
 
+
+Both the wifi protocol are implemented. To change wich one is used change the wifi_build.h file and build the application again.
+
 ### Build
 
 to setup your environment follow the instruction in this link :
