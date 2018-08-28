@@ -48,6 +48,8 @@ make menuconfig
 ```
 and change the value Serial flasher config > Default serial port to the value of the USB port connected to the board
 
+You have to make sure that the driver are properly installed. Usually on linux distribution the drivers are already installed but not on macOS or windows. 
+
 once it is done you can build and flash the software to the chip the make flash or build command
 
 some building script are provided :
