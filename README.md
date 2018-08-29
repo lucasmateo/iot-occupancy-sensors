@@ -38,7 +38,9 @@ openssl pkcs12 -nodes -in yourP12File.p12 -nocerts -out privateKey.key
 ```
 
 
-Both the wifi protocol are implemented. To change wich one is used change the wifi_build.h file and build the application again.
+Both the wifi protocol are implemented. To change wich one is used change the wifi_build.h file and build the application again. Once you have the files you can put them in the components/wifi_connection folder and specify their name in the components/wifi_connect/component.mk file 
+
+The file are not present on the github as it is public 
 
 ### Build
 
